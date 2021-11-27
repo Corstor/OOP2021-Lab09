@@ -97,7 +97,7 @@ public class ConcurrentGUI extends JFrame {
                         @Override
                         public void run() {
                             // This will happen in the EDT: since i'm reading counter it needs to be volatile.
-                            ConcurrentGUI.this.display.setText(Integer.toString(Agent.this.counter));
+                            display.setText(Integer.toString(counter));
                         }
                     });
                     /*
@@ -107,11 +107,8 @@ public class ConcurrentGUI extends JFrame {
                      *
                      * EXERCISE: Can you think of a solution that doesn't require counter to be volatile?
                      */
-                    if(up) {
-                        this.counter++;
-                    } else {
-                        this.counter--;
-                    }
+                    this.counter += up ? 1 : -1;
+                    
                     Thread.sleep(100);
                 } catch (InvocationTargetException | InterruptedException ex) {
                     /*
