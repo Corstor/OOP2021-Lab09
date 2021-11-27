@@ -63,6 +63,9 @@ public class MultiThreadedSumMatrix implements SumMatrix {
 
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double sum(final double[][] matrix) {
         final int nrows = matrix.length % nthread + matrix.length / nthread;
