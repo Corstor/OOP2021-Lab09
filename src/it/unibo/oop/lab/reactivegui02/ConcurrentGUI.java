@@ -12,6 +12,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
+/**
+ *  Class to represent the GUI.
+ */
 public class ConcurrentGUI extends JFrame {
 
     private static final long serialVersionUID = -8630968055862320453L;
@@ -22,8 +25,11 @@ public class ConcurrentGUI extends JFrame {
     private final JButton up = new JButton("Up");
     private final JButton down = new JButton("Down");
     private final JButton stop = new JButton("Stop");
-    protected final Agent agent = new Agent();
+    private final Agent agent = new Agent();
 
+    /**
+     * Build a concurrent GUI.
+     */
     public ConcurrentGUI() {
         super();
         final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -38,7 +44,6 @@ public class ConcurrentGUI extends JFrame {
         this.setContentPane(canvas);
         this.setVisible(true);
 
-        new Thread(this.agent).start();
         up.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(final ActionEvent e) {
@@ -60,10 +65,25 @@ public class ConcurrentGUI extends JFrame {
                 down.setEnabled(false);
             }
         });
+
+        new Thread(this.agent).start();
     }
-    
+
+    /**
+     * Notify to an agent to stop.
+     * 
+     * @param agent
+     *              agent to notify that i want to stop
+     */
     public void notifyStop(final Agent agent) {
         agent.stopCounting();
+    }
+
+    /**
+     * @return the agent of this object
+     */
+    public Agent getAgent() {
+        return this.agent;
     }
 
     /*
@@ -108,7 +128,7 @@ public class ConcurrentGUI extends JFrame {
                      * EXERCISE: Can you think of a solution that doesn't require counter to be volatile?
                      */
                     this.counter += up ? 1 : -1;
-                    
+
                     Thread.sleep(100);
                 } catch (InvocationTargetException | InterruptedException ex) {
                     /*
@@ -126,11 +146,11 @@ public class ConcurrentGUI extends JFrame {
         public void stopCounting() {
             this.stop = true;
         }
-        
+
         public void notifyUp() {
             this.up = true;
         }
-        
+
         public void notifyDown() {
             this.up = false;
         }
